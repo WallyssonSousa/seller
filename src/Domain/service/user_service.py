@@ -15,5 +15,3 @@ class User:
     
     def validate_cnpj(self):
         return len(self.cnpj) ==14 and self.cnpj.isdigit()
-                   
-    
