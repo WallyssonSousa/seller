@@ -1,13 +1,15 @@
-from flask import Blueprint, jsonify
-from src.Application.controller.auth_controller import AuthController
+from src.Application.Controller.user_controller import UserController
+from flask import jsonify, make_response
 
-auth_bp = Blueprint('auth', __name__)
-auth_controller = AuthController()
-
-@auth_bp.route('/login', methods=['GET'])
-def login():
-    return jsonify(auth_controller.login())
-
-@auth_bp.route('/cadastro', methods=['GET'])
-def cadastro():
-    return jsonify(auth_controller.cadastro())
+def init_routes(app):    
+    @app.route('/api', methods=['GET'])
+    def health():
+        return make_response(jsonify({
+            "mensagem": "API - OK; Docker - Up",
+        }), 200)
+    
+    @app.route('/user', methods=['POST'])
+    def register_user():
+        return UserController.register_user()
+    
+    
