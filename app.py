@@ -1,7 +1,11 @@
 from flask import Flask
 from src.routes import auth_bp
 from src.Config.data_base import init_db, db
-from src.Infrastructure.Model.user import User
+from dotenv import load_dotenv 
+import os
+
+# Carrega as variáveis do .env
+load_dotenv()
 
 def create_app():
     app = Flask(__name__)

@@ -10,6 +10,7 @@ class User(db.Model):
     celular = db.Column(db.String(20), nullable=False)
     password = db.Column(db.String(100), nullable=False)
     status = db.Column(db.String(20), default="Inativo", nullable=False)
+    verificacao_code = db.Column(db.String(4), nullable=True)
 
     def to_dict(self):
         return {
@@ -20,4 +21,5 @@ class User(db.Model):
             "celular": self.celular,
             "password": self.password,
             "status": self.status
+            
         }
