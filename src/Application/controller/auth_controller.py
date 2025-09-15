@@ -1,6 +1,9 @@
 import sqlite3
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
+from flask_jwt_extended import create_access_token
+from flask import jsonify
+
 
 DB_PATH = os.path.join(os.getcwd(), "sellers.db")
 
@@ -35,8 +38,12 @@ class AuthController:
         if active != 1:
             return {"error": "Conta inativa"}, 403
 
-        return {"message": "Login realizado com sucesso!"}, 200
-
+        access_token = create_access_token(identity=username)
+        return jsonify(
+                {"access_token":access_token,
+                "message": "Token JWT criado"}
+                ), 200
+    
     def cadastro(self, username, password):
         if not username or not password:
             return {"error": "username e password são obrigatórios"}, 400

@@ -5,6 +5,9 @@ DB_PATH = os.path.join(os.getcwd(), "sellers.db")
 
 conn = sqlite3.connect(DB_PATH)
 cursor = conn.cursor()
+
+cursor.execute("SELECT * from sellers")
+
 cursor.execute("INSERT INTO sellers (username, password, active) VALUES (?, ?, ?)", ('pedro', '1234', 1))
 conn.commit()
 
