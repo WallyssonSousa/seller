@@ -14,4 +14,4 @@ conn.commit()
 conn.commit()
 conn.close()
 print("Banco criado/atualizado em:", DB_PATH)
-#criação do banco de dadas os sellers.db com a tabela sellers para textes
+#criação do banco de dadas os sellers.db com a tabela sellers para testes

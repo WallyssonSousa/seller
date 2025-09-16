@@ -6,7 +6,7 @@ from flask_jwt_extended import JWTManager
 app = Flask(__name__)
 
 
-app.config["JWT_SECRET_KEY"] = "super-secret"  # Change this!
+app.config["JWT_SECRET_KEY"] = "27d25a37-lnpw-4eb7-b76c-40a7321b45db" 
 jwt = JWTManager(app)
 
 # Registrando as rotas
