@@ -1,6 +1,8 @@
-# Wallysson - classe para gerenciar o envio de mensagem 
-""" Envia o código de verificacao pelo WhatsApp """
-""" from twilio.rest import Client
+"""
+
+    Descomente para o código não dar erro!
+
+ from twilio.rest import Client
 
 class WhatsAppService:
     def __init__(self, conta_sid: str, auth_token: str, from_numero: str):
