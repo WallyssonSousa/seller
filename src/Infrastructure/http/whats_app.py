@@ -1,8 +1,4 @@
-"""
-
-    Descomente para o código não dar erro!
-
- from twilio.rest import Client
+from twilio.rest import Client
 
 class WhatsAppService:
     def __init__(self, conta_sid: str, auth_token: str, from_numero: str):
@@ -16,4 +12,3 @@ class WhatsAppService:
             to=f"whatsapp:{to_numero}"
         )
         return message.sid   
- """
