@@ -1,10 +1,19 @@
 from flask import request, jsonify, make_response
 from src.Application.Service.product_service import ProductService
+from src.Infrastructure.Model.user import User
+from src.Config.data_base import db
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 class ProductController:
     @staticmethod
+    @jwt_required()
     def register_product():
-        data = request.get_json()
+        data = request.get_json() or {}
+
+        user_id = get_jwt_identity()
+        user = User.query.get(user_id)
+        if not user or user.status != "Ativo":
+            return make_response(jsonify({"error": "Usuário não autorizado"}), 403)
 
         nome = data.get('nome')
         preco = data.get('preco')
@@ -12,11 +21,11 @@ class ProductController:
         status = data.get('status', 'Inactive')
         image = data.get('image')
 
-        product = ProductService.create_product(nome, preco, quantidade, status, image)
-
         if not all([nome, preco, quantidade]):
             return make_response(jsonify({"error": "Missing required fields"}), 400)
-        
+
+        product = ProductService.create_product(nome, preco, quantidade, status, image)
+
         return make_response(jsonify({
             "message": "Product successfully registered",
             "product": product.to_dict()

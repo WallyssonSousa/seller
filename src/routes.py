@@ -1,5 +1,6 @@
 from flask import Blueprint, jsonify, make_response
 from src.Application.controller.user_controller import UserController
+from src.Application.controller.auth_controller import AuthController
 from src.Application.controller.product_controller import ProductController
 
 auth_bp = Blueprint("auth", __name__)
@@ -8,7 +9,7 @@ product_bp = Blueprint("product", __name__)
 @auth_bp.route('/api', methods=['GET'])
 def health():
     return make_response(jsonify({
-        "mensagem": "API - OK; Docker - Up",
+        "mensagem": "API - OK",
     }), 200)
 
 @auth_bp.route('/users', methods=['POST'])
@@ -18,6 +19,10 @@ def register_user():
 @auth_bp.route('/users/verificar', methods=['POST'])
 def verificar_codigo():
     return UserController.verificar_codigo()
+
+@auth_bp.route('/login', methods=['POST'])
+def login():
+    return AuthController.login()
 
 @product_bp.route('/', methods=['POST'])
 def register_product():
