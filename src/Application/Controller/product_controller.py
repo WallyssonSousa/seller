@@ -32,7 +32,7 @@ class ProductController:
         }), 201)
     def listar_produtos():
         try:
-            produtos = Product.query.all()  # pega todos os produtos diretamente do banco de dados
+            produtos = produtos.query.all()  # pega todos os produtos diretamente do banco de dados
             produtos_list = [p.to_dict() for p in produtos]
             return make_response(jsonify(produtos_list), 200)
         except Exception as e:

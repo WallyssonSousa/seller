@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify
-from src.Application.controller.auth_controller import AuthController
-from src.Application.controller.product_controller import ProductController
+from src.Application.Controller.auth_controller import AuthController
+from src.Application.Controller.product_controller import ProductController
 
 auth_bp = Blueprint("auth", __name__)
 product_bp = Blueprint("product", __name__)
@@ -26,3 +26,8 @@ def login():
 @auth_bp.route('/cadastro', methods=['GET'])
 def cadastro():
     return jsonify(auth_controller.cadastro())
+
+@product_bp.route('/products', methods=['GET'])
+def listar_produtos():
+    return ProductController.listar_produtos()
+
