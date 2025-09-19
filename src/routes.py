@@ -1,21 +1,28 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, jsonify
 from src.Application.controller.auth_controller import AuthController
+from src.Application.controller.product_controller import ProductController
 
-auth_bp = Blueprint('auth', __name__)
-auth_controller = AuthController()
+auth_bp = Blueprint("auth", __name__)
+product_bp = Blueprint("product", __name__)
+
+@auth_bp.route('/api', methods=['GET'])
+def health():
+    return make_response(jsonify({
+        "mensagem": "API - OK",
+    }), 200)
+
+@auth_bp.route('/users', methods=['POST'])
+def register_user():
+    return UserController.register_user()
+
+@auth_bp.route('/users/verificar', methods=['POST'])
+def verificar_codigo():
+    return UserController.verificar_codigo()
 
 @auth_bp.route('/login', methods=['POST'])
 def login():
-    data = request.get_json() or {}
-    username = data.get('username')
-    password = data.get('password')
-    resp, status = auth_controller.login(username, password)
-    return jsonify(resp), status
+    return jsonify(auth_controller.login())
 
-@auth_bp.route('/cadastro', methods=['POST'])
+@auth_bp.route('/cadastro', methods=['GET'])
 def cadastro():
-    data = request.get_json() or {}
-    username = data.get('username')
-    password = data.get('password')
-    resp, status = auth_controller.cadastro(username, password)
-    return jsonify(resp), status
+    return jsonify(auth_controller.cadastro())
