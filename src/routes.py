@@ -31,3 +31,6 @@ def cadastro():
 def listar_produtos():
     return ProductController.listar_produtos()
 
+@auth_bp.route('/users/<int:user_id>', methods=['GET'])
+def get_user(user_id):
+    return User_controller.get_user_by_id(user_id)
