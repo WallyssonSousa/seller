@@ -1,5 +1,6 @@
 from flask import request, jsonify, make_response
 from src.Application.Service.product_service import ProductService
+from src.Infrastructure.Model.product import Product
 from src.Infrastructure.Model.user import User
 from src.Config.data_base import db
 from flask_jwt_extended import jwt_required, get_jwt_identity
@@ -37,3 +38,15 @@ class ProductController:
             return make_response(jsonify(produtos_list), 200)
         except Exception as e:
             return make_response(jsonify({"erro": str(e)}), 500)
+        
+
+    def get_prod_by_id(prod_id):
+        product = Product.query.get(prod_id)
+        if product:
+            return jsonify(product.to_dict()),200
+        else: 
+            return jsonify({
+                "msg": "Produto não encontrado"
+            }), 404
+        
+

@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify
-from src.Application.Controller.auth_controller import AuthController
-from src.Application.Controller.product_controller import ProductController
-from src.Application.Controller.user_controller import UserController
+from src.Application.controller.auth_controller import AuthController
+from src.Application.controller.product_controller import ProductController
+from src.Application.controller.user_controller import UserController
 from flask import make_response, request
 
 auth_bp = Blueprint("auth", __name__)
@@ -36,3 +36,7 @@ def listar_produtos():
 @auth_bp.route('/users/<int:user_id>', methods=['GET'])
 def get_user(user_id):
     return UserController.get_user_by_id(user_id)
+
+@auth_bp.route('/products/<int:prod_id>', methods=['GET'])
+def get_prod_id(prod_id):
+    return ProductController.get_prod_by_id(prod_id)
