@@ -46,7 +46,28 @@ class ProductController:
             return jsonify(product.to_dict()),200
         else: 
             return jsonify({
-                "msg": "Produto não encontrado"
+                "message": "Produto não encontrado"
             }), 404
         
+    def update_status_prod(prod_id):
+        new_status = request.get_json()
 
+        product = Product.query.get(prod_id)
+        if not product:
+            return {"message": "Produto não encontrado"}, 404
+
+        if "status" in new_status:
+            if new_status["status"] not in ['Active', 'Inactive']: # verifica se é um desses valores (Active ou Inactive)
+                return {"messages": [
+                                "Status de produto não reconhecido ou não existente!",
+                                "Status aceitos são 'Active' ou 'Inactive'. Por favor insira um destes!"
+                            ]
+                        }, 400
+            else: 
+                product.status =  new_status["status"] # altera o valor no banco de dados
+                db.session.commit()
+            return jsonify({
+                    "message": "Status atualizado com sucesso",
+                    "product": product.to_dict()
+                }), 200
+            

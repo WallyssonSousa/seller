@@ -40,3 +40,7 @@ def get_user(user_id):
 @auth_bp.route('/products/<int:prod_id>', methods=['GET'])
 def get_prod_id(prod_id):
     return ProductController.get_prod_by_id(prod_id)
+
+@auth_bp.route('/products/<int:prod_id>', methods=['PATCH'])
+def update_status_product_by_id(prod_id):
+    return ProductController.update_status_prod(prod_id)
