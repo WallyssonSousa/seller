@@ -69,3 +69,13 @@ class UserService:
         if not user.check_password(password):
             return None, "Credenciais inválidas"
         return user, None
+
+    @staticmethod
+    def list_users():
+        users = User.query.all()
+        return [u.to_dict() for u in users]
+    
+    @staticmethod
+    def get_user_by_id(user_id):
+        user = User.query.get(user_id)
+        return user.to_dict() if user else None

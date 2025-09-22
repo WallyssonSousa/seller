@@ -43,3 +43,17 @@ class UserController:
         if err:
             return make_response(jsonify({"erro": err}), 400)
         return make_response(jsonify({"mensagem": "Usuário verificado e ativado com sucesso", "usuario": user.to_dict()}), 200)
+
+    @staticmethod
+    def list_users():
+        users = UserService.list_users()
+        return make_response(jsonify({
+            "users": users
+        }), 200)
+    
+    @staticmethod
+    def get_user_by_id(user_id):
+        user = UserService.get_user_by_id(user_id)
+        if not user:
+            return make_response(jsonify({"erro": "Usuário não encontrado"}), 404)
+        return make_response(jsonify({"user": user}), 200)
