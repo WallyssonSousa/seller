@@ -27,3 +27,7 @@ def login():
 @product_bp.route('/', methods=['POST'])
 def register_product():
     return ProductController.register_product()
+
+@product_bp.route('/', methods=['GET'])
+def list_products():
+    return ProductController.list_products()

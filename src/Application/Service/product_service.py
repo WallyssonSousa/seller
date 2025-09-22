@@ -18,3 +18,10 @@ class ProductService:
         db.session.add(product)
         db.session.commit()
         return product
+    
+    @staticmethod
+    def list_products():
+        products = Product.query.all()
+        return [p.to_dict() for p in products]
+    
+    
