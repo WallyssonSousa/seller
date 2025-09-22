@@ -12,7 +12,7 @@ def health():
         "mensagem": "API - OK",
     }), 200)
 
-""" Registrar e verificar usuários """
+""" Registrar, verificar e listar usuários """
 
 @auth_bp.route('/users', methods=['POST'])
 def register_user():
