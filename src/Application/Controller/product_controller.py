@@ -30,3 +30,11 @@ class ProductController:
             "message": "Product successfully registered",
             "product": product.to_dict()
         }), 201)
+    
+    @staticmethod
+    @jwt_required()
+    def list_products():
+        products = ProductService.list_products()
+        return make_response(jsonify({
+            "products": products
+        }), 200)
