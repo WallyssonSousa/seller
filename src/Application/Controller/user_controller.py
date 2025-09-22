@@ -1,5 +1,6 @@
 from flask import request, jsonify, make_response
 from src.Application.Service.user_service import UserService
+from flask_jwt_extended import jwt_required
 
 class UserController:
     @staticmethod
@@ -45,6 +46,7 @@ class UserController:
         return make_response(jsonify({"mensagem": "Usuário verificado e ativado com sucesso", "usuario": user.to_dict()}), 200)
 
     @staticmethod
+    @jwt_required()
     def list_users():
         users = UserService.list_users()
         return make_response(jsonify({
@@ -52,6 +54,7 @@ class UserController:
         }), 200)
     
     @staticmethod
+    @jwt_required()
     def get_user_by_id(user_id):
         user = UserService.get_user_by_id(user_id)
         if not user:
