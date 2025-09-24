@@ -2,7 +2,8 @@ import random, os
 from src.Domain.user import UserDomain
 from src.Infrastructure.Model.user import User
 from src.Config.data_base import db
-from src.Infrastructure.http.whats_app import WhatsAppService
+from src.Infrastructure.http.sms_service import SMSService  
+
 
 def formatar_celular(numero: str) -> str:
     numero = numero.strip()
@@ -21,11 +22,13 @@ class UserService:
 
         codigo_de_verificacao = str(random.randint(1000, 9999)).zfill(4)
 
+        celular_formatado = formatar_celular(celular)
+
         user = User(
             name=new_user.name,
             cnpj=new_user.cnpj,
             email=new_user.email,
-            celular=new_user.celular,
+            celular=celular_formatado,
             status=new_user.status,
             verificacao_code=codigo_de_verificacao
         )
@@ -34,20 +37,19 @@ class UserService:
         db.session.add(user)
         db.session.commit()
 
-        celular_formatado = formatar_celular(celular)
-
-        whatsapp = WhatsAppService(
+        sms = SMSService(
             os.getenv("TWILIO_ACCOUNT_SID"),
             os.getenv("TWILIO_AUTH_TOKEN"),
             os.getenv("TWILIO_PHONE_NUMBER")
         )
-        whatsapp.enviar_mensagem(celular_formatado, codigo_de_verificacao)
+        sms.enviar_mensagem(celular_formatado, codigo_de_verificacao)
 
         return user
 
     @staticmethod
-    def activate_user_by_code(email, code):
-        user = User.query.filter_by(email=email).first()
+    def activate_user_by_code(celular, code):
+        celular_formatado = formatar_celular(celular)
+        user = User.query.filter_by(celular=celular_formatado).first()
         if not user:
             return None, "Usuário não encontrado"
 
@@ -79,3 +81,25 @@ class UserService:
     def get_user_by_id(user_id):
         user = User.query.get(user_id)
         return user.to_dict() if user else None
+    
+    @staticmethod
+    def update_user(user_id, name=None, cnpj=None, email=None, celular=None, password=None, status=None):
+        user = User.query.get(user_id)
+        if not user:
+            return None
+
+        if name is not None:
+            user.name = name
+        if cnpj is not None:
+            user.cnpj = cnpj
+        if email is not None:
+            user.email = email
+        if celular is not None:
+            user.celular = formatar_celular(celular)
+        if password is not None:
+            user.password = User.hash_password(password)
+        if status is not None:
+            user.status = status
+
+        db.session.commit()
+        return user

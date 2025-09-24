@@ -2,6 +2,7 @@ from flask import request, jsonify, make_response
 from src.Application.Service.user_service import UserService
 from flask_jwt_extended import jwt_required
 
+
 class UserController:
     @staticmethod
     def register_user():
@@ -20,7 +21,7 @@ class UserController:
         try:
             user = UserService.create_user(name, cnpj, email, celular, password, status)
             return make_response(jsonify({
-                "mensagem": "Usuário cadastrado com sucesso. Código de verificação enviado via WhatsApp.",
+                "mensagem": "Usuário cadastrado com sucesso. Código de verificação enviado por SMS.",
                 "usuario": user.to_dict()
             }), 201)
         except ValueError as e:
@@ -30,20 +31,22 @@ class UserController:
             traceback.print_exc()  
             return make_response(jsonify({"erro": f"Erro ao cadastrar usuário: {str(e)}"}), 500)
 
-
     @staticmethod
     def verificar_codigo():
         data = request.get_json() or {}
-        email = data.get('email')
+        celular = data.get('celular')
         code = data.get('code')
 
-        if not all([email, code]):
-            return make_response(jsonify({"erro": "email e code são obrigatórios"}), 400)
+        if not all([celular, code]):
+            return make_response(jsonify({"erro": "celular e code são obrigatórios"}), 400)
 
-        user, err = UserService.activate_user_by_code(email, code)
+        user, err = UserService.activate_user_by_code(celular, code)
         if err:
             return make_response(jsonify({"erro": err}), 400)
-        return make_response(jsonify({"mensagem": "Usuário verificado e ativado com sucesso", "usuario": user.to_dict()}), 200)
+        return make_response(jsonify({
+            "mensagem": "Usuário verificado e ativado com sucesso",
+            "usuario": user.to_dict()
+        }), 200)
 
     @staticmethod
     @jwt_required()
@@ -60,3 +63,25 @@ class UserController:
         if not user:
             return make_response(jsonify({"erro": "Usuário não encontrado"}), 404)
         return make_response(jsonify({"user": user}), 200)
+    
+    @staticmethod
+    @jwt_required()
+    def update_user(user_id):
+        data = request.get_json() or {}
+        user = UserService.update_user(
+            user_id,
+            name=data.get('name'),
+            cnpj=data.get('cnpj'),
+            email=data.get('email'),
+            celular=data.get('celular'),
+            password=data.get('password'),
+            status=data.get('status')
+        )
+
+        if not user:
+            return make_response(jsonify({"error": "Usuário não encontrado"}), 404)
+
+        return make_response(jsonify({
+            "message": "Usuário atualizado com sucesso",
+            "user": user.to_dict()
+        }), 200)
