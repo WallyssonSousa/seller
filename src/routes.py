@@ -2,9 +2,11 @@ from flask import Blueprint, jsonify, make_response
 from src.Application.controller.user_controller import UserController
 from src.Application.controller.auth_controller import AuthController
 from src.Application.controller.product_controller import ProductController
+from src.Application.controller.sale_controller import SaleController
 
 auth_bp = Blueprint("auth", __name__)
 product_bp = Blueprint("product", __name__)
+sale_bp = Blueprint("sale", __name__)
 
 @auth_bp.route('/api', methods=['GET'])
 def health():
@@ -30,6 +32,10 @@ def list_users():
 def get_user_by_id(user_id):
     return UserController.get_user_by_id(user_id)
 
+@auth_bp.route('/users/<int:user_id>', methods=['PUT'])
+def update_user(user_id):
+    return UserController.update_user(user_id)
+
 """ Login """
 
 @auth_bp.route('/login', methods=['POST'])
@@ -46,3 +52,29 @@ def register_product():
 def list_products():
     return ProductController.list_products()
 
+@product_bp.route('/<int:product_id>', methods=['GET'])
+def get_product(product_id):
+    return ProductController.get_product(product_id)
+
+@product_bp.route('/<int:product_id>/inactivate', methods=['PATCH'])
+def inactivate_product(product_id):
+    return ProductController.inactivate_product(product_id)
+
+@product_bp.route('/<int:product_id>', methods=['PUT'])
+def update_product(product_id):
+    return ProductController.update_product(product_id)
+
+" Sales "
+
+
+@sale_bp.route('/', methods=['POST'])
+def create_sale():
+    return SaleController.create_sale()
+
+@sale_bp.route('/', methods=['GET'])
+def list_sales():
+    return SaleController.list_sales()
+
+@sale_bp.route('/<int:sale_id>', methods=['GET'])
+def get_sale(sale_id):
+    return SaleController.get_sale(sale_id)
