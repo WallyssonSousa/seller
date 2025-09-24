@@ -3,6 +3,7 @@ from src.routes import auth_bp, product_bp
 from src.Config.data_base import init_db, db
 from dotenv import load_dotenv
 from flask_jwt_extended import JWTManager
+from src.routes import sale_bp
 import os
 
 load_dotenv()
@@ -21,6 +22,7 @@ def create_app():
 
     app.register_blueprint(auth_bp, url_prefix='/auth')
     app.register_blueprint(product_bp, url_prefix='/product')
+    app.register_blueprint(sale_bp, url_prefix='/sale')
 
     return app
 
