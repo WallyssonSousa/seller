@@ -8,7 +8,7 @@ class Product(db.Model):
     preco = db.Column(db.Float, nullable=False)
     quantidade = db.Column(db.Integer, nullable=False)
     status = db.Column(db.String(50), nullable=False, default="Inactive")
-    image = db.Column(db.String(255), nullable=True)
+    image = db.Column(db.Text)
 
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
 

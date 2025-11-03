@@ -4,14 +4,22 @@ from src.Config.data_base import init_db, db
 from dotenv import load_dotenv
 from flask_jwt_extended import JWTManager
 from src.routes import sale_bp
+from flask_cors import CORS
 import os
 
 load_dotenv()
 
 def create_app():
     app = Flask(__name__)
+    CORS(
+        app,
+        resources={r"/*": {"origins": "*"}},
+        supports_credentials=True,
+        allow_headers=["Content-Type", "Authorization"],
+        methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
+    )   
 
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///market_management.db'
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_URL")
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['SECRET_KEY'] = os.getenv("FLASK_SECRET_KEY", "change_me")
     app.config['JWT_SECRET_KEY'] = os.getenv("JWT_SECRET_KEY", "change_me_jwt")

@@ -66,7 +66,6 @@ def update_product(product_id):
 
 " Sales "
 
-
 @sale_bp.route('/', methods=['POST'])
 def create_sale():
     return SaleController.create_sale()
