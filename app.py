@@ -19,7 +19,7 @@ def create_app():
         methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
     )   
 
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///market_management.db'
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_URL")
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['SECRET_KEY'] = os.getenv("FLASK_SECRET_KEY", "change_me")
     app.config['JWT_SECRET_KEY'] = os.getenv("JWT_SECRET_KEY", "change_me_jwt")

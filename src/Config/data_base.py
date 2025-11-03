@@ -1,11 +1,11 @@
 from flask_sqlalchemy import SQLAlchemy
-
+import os
 
 db = SQLAlchemy()
 
 def init_db(app):
 
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///market_management.db'
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_URL")
     
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     
