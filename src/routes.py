@@ -1,8 +1,8 @@
 from flask import Blueprint, jsonify, make_response
-from src.Application.controller.user_controller import UserController
-from src.Application.controller.auth_controller import AuthController
-from src.Application.controller.product_controller import ProductController
-from src.Application.controller.sale_controller import SaleController
+from src.application.controller.user_controller import UserController
+from src.application.controller.auth_controller import AuthController
+from src.application.controller.product_controller import ProductController
+from src.application.controller.sale_controller import SaleController
 
 auth_bp = Blueprint("auth", __name__)
 product_bp = Blueprint("product", __name__)

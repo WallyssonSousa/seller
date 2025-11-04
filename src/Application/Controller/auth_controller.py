@@ -1,6 +1,6 @@
 from flask import request, jsonify, make_response, current_app
 from flask_jwt_extended import create_access_token
-from src.Application.Service.user_service import UserService
+from src.application.Service.user_service import UserService
 
 class AuthController:
     @staticmethod

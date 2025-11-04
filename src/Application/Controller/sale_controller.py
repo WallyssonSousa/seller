@@ -1,6 +1,6 @@
 from flask import request, jsonify, make_response
 from flask_jwt_extended import jwt_required, get_jwt_identity
-from src.Application.Service.sale_service import SaleService
+from src.application.Service.sale_service import SaleService
 
 class SaleController:
     @staticmethod
