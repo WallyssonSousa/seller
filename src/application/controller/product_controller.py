@@ -1,5 +1,5 @@
 from flask import request, jsonify, make_response
-from src.application.Service.product_service import ProductService
+from src.application.service.product_service import ProductService
 from src.Infrastructure.Model.user import User
 from src.Config.data_base import db
 from flask_jwt_extended import jwt_required, get_jwt_identity

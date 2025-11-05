@@ -1,5 +1,5 @@
 from flask import request, jsonify, make_response
-from src.application.Service.user_service import UserService
+from src.application.service.user_service import UserService
 from flask_jwt_extended import jwt_required
 
 
