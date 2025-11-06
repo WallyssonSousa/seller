@@ -1,3 +1,11 @@
+import socket
+
+orig = socket.getaddrinfo
+def force_ipv4(host, port, family=0, type=0, proto=0, flags=0):
+    return orig(host, port, socket.AF_INET, type, proto, flags)
+socket.getaddrinfo = force_ipv4
+
+
 from flask import Flask
 from src.routes import auth_bp, product_bp
 from src.Config.data_base import init_db, db
