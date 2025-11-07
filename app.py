@@ -25,7 +25,7 @@ def create_app():
         supports_credentials=True,
         allow_headers=["Content-Type", "Authorization"],
         methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
-    )   
+    )
 
     app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_URL")
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -42,10 +42,17 @@ def create_app():
 
     return app
 
+
 def create_tables(app):
     with app.app_context():
         db.create_all()
 
+
 if __name__ == '__main__':
     app = create_app()
+
+    @app.route("/")
+    def health():
+        return {"status": "ok"}, 200
+
     app.run(host="0.0.0.0", port=5000, debug=True)
