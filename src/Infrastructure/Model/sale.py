@@ -8,6 +8,7 @@ class Sale(db.Model):
     product_id = db.Column(db.Integer, db.ForeignKey("products.id"), nullable=False)
     quantity = db.Column(db.Integer, nullable=False)
     price = db.Column(db.Float, nullable=False)
+    status = db.Column(db.Boolean, default=True)
     seller_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
@@ -21,6 +22,7 @@ class Sale(db.Model):
             "product_nome": self.product.nome,
             "quantity": self.quantity,
             "price": self.price,
+            "status": self.status,
             "seller_id": self.seller_id,
             "seller_name": self.seller.name,
             "created_at": self.created_at.isoformat()

@@ -77,3 +77,7 @@ def list_sales():
 @sale_bp.route('/<int:sale_id>', methods=['GET'])
 def get_sale(sale_id):
     return SaleController.get_sale(sale_id)
+
+@sale_bp.route('/<int:sale_id>/inactivate', methods=['PATCH'])
+def inactivate_sale(sale_id):
+    return SaleController.inactivate_sale(sale_id)

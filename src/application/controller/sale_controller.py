@@ -37,3 +37,15 @@ class SaleController:
         if not sale:
             return make_response(jsonify({"error": "Venda não encontrada"}), 404)
         return make_response(jsonify({"sale": sale}), 200)
+    
+    @staticmethod
+    @jwt_required()
+    def inactivate_sale(sale_id):
+        sale, err = SaleService.inactive_sale(sale_id)
+        if err:
+            return make_response(jsonify({"error": err}), 400)
+        
+        return make_response(jsonify({
+            "message": "Venda inativada com sucesso",
+            "sale": sale.to_dict()
+        }), 200)

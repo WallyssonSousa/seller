@@ -33,10 +33,32 @@ class SaleService:
 
     @staticmethod
     def list_sales():
-        sales = Sale.query.all()
+        sales = Sale.query.filter_by(status=True).all()
         return [s.to_dict() for s in sales]
+
     
     @staticmethod
     def get_sale_by_id(sale_id):
         sale = Sale.query.get(sale_id)
         return sale.to_dict() if sale else None
+    
+
+    @staticmethod
+    def inactive_sale(sale_id): 
+        sale = Sale.query.get(sale_id)
+        if not sale: 
+            return None, "Venda não encontrada"
+        
+        if sale.status == False: 
+            return None, "Venda já está inativada"
+        
+        product = Product.query.get(sale.product_id)
+
+        if not product: 
+            return None, "Produto não encontrado"
+        
+        product.quantidade += sale.quantity
+
+        sale.status = False
+        db.session.commit()
+        return sale, None
